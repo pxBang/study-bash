@@ -83,3 +83,53 @@ a=0
 echo $((a<1 ? 1 : 0))
 echo $((a>1 ? 1 : 0))
 
+
+# 5. 赋值运算 # 
+# 算术表达式$((...))可以执行赋值运算。
+
+echo $((a=1))
+echo $a
+# 上面例子中，a=1对变量a进行赋值。这个式子本身也是一个表达式，返回值就是等号右边的值。
+# $((...))支持的赋值运算符，有以下这些。
+# parameter = value：简单赋值。
+# parameter += value：等价于parameter = parameter + value。
+# parameter -= value：等价于parameter = parameter – value。
+# parameter *= value：等价于parameter = parameter * value。
+# parameter /= value：等价于parameter = parameter / value。
+# parameter %= value：等价于parameter = parameter % value。
+# parameter <<= value：等价于parameter = parameter << value。
+# parameter >>= value：等价于parameter = parameter >> value。
+# parameter &= value：等价于parameter = parameter & value。
+# parameter |= value：等价于parameter = parameter | value。
+# parameter ^= value：等价于parameter = parameter ^ value。
+
+foo=5
+echo $((foo*=2))
+
+# 6. 求值运算  #
+# 逗号,在$((...))内部是求值运算符，执行前后两个表达式，并返回后一个表达式的值
+echo $((foo = 1 + 2, 3 * 4))
+echo $foo
+
+# 7. expr 命令 #
+# expr命令支持算术运算，可以不使用((...))语法。
+
+expr 3 + 2
+y=$(expr 2 + 5)
+echo $y
+
+# expr命令支持变量替换。
+
+foo=3
+expr $foo + 2
+
+# expr命令也不支持非整数参数。
+
+expr 3.5 + 2
+
+# 8. let 命令 #
+# let命令用于将算术运算的结果，赋予一个变量。
+let x=2+3
+#等价于
+x=$(expr 2 + 3)
+
